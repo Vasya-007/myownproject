@@ -8,7 +8,7 @@ import Login from '../pages/Login';
 import Notfound from '../pages/Notfound';
 import Signup from '../pages/Signup';
 import paths from './route-paths';
-import AppLayout from '../components/layouts/AppLayout copy';
+import AppLayout from '../components/layouts/AppLayout';
 
 const authRoutes = [
   {
@@ -25,7 +25,7 @@ const authRoutes = [
 
 const appRoutes = [
   {
-    path: paths.home,
+    path: paths.myCoin,
     Component: Home,
     exact: true,
   },
@@ -52,29 +52,26 @@ export default class Rootrouter extends Component {
     return (
       <Router>
         { loggedIn ? (
-          <Switch>
-            <AppLayout logout={this.logout}>
+          <AppLayout logout={this.logout}>
+            <Switch>
               {appRoutes.map(({ path, Component: C, exact }) => (
                 <Route exact={exact} path={path}>
                   <C />
                 </Route>
               ))}
-            </AppLayout>
-          </Switch>
+              <Redirect to={paths.myCoin} />
+            </Switch>
+          </AppLayout>
         ) : (
 
           <AuthLayout login={this.login}>
             <Switch>
-              <Redirect from={paths.home} to={paths.login} exact />
               {authRoutes.map(({ path, Component: C, exact }) => (
                 <Route exact={exact} path={path}>
                   <C />
                 </Route>
               ))}
-              <Route>
-                <Notfound />
-              </Route>
-
+              <Redirect to={paths.login} />
               <Route>
                 <Notfound />
               </Route>
