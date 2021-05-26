@@ -9,6 +9,7 @@ import Notfound from '../pages/Notfound';
 import Signup from '../pages/Signup';
 import paths from './route-paths';
 import AppLayout from '../components/layouts/AppLayout';
+import AuthManager from '../services/AuthManager';
 
 const authRoutes = [
   {
@@ -35,24 +36,29 @@ export default class Rootrouter extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedIn: false,
+      loggedIn: AuthManager.isLoggedIn(),
     };
   }
 
-  login = () => {
-    this.setState({ loggedIn: true });
+  componentDidMount() {
+    this.subscriber = (token) => {
+      this.setState({ loggedIn: !!token });
+    };
+    AuthManager.subscribe(this.subscriber);
   }
 
-  logout = () => {
-    this.setState({ loggedIn: false });
+  // asdas
+  componentWillUnmount() {
+    AuthManager.unsubscribe(this.subscriber);
   }
 
   render() {
     const { loggedIn } = this.state;
+
     return (
       <Router>
         { loggedIn ? (
-          <AppLayout logout={this.logout}>
+          <AppLayout>
             <Switch>
               {appRoutes.map(({ path, Component: C, exact }) => (
                 <Route exact={exact} path={path}>

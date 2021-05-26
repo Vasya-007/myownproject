@@ -5,8 +5,9 @@ import {
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import paths from '../../router/route-paths';
+import AuthManager from '../../services/AuthManager';
 
-export default function AuthLayout({ children, login }) {
+export default function AuthLayout({ children }) {
   return (
     <>
       <Navbar bg="light" expand="lg">
@@ -18,7 +19,7 @@ export default function AuthLayout({ children, login }) {
           <Nav className="mr-auto">
             {/* <Nav.Link as={Link} to={paths.login}>Login</Nav.Link>
             <Nav.Link as={Link} to={paths.signup}>Signup</Nav.Link> */}
-            <Button onClick={login}>
+            <Button onClick={() => AuthManager.login('token-tok')}>
               Login
             </Button>
           </Nav>
