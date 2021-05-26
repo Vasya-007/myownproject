@@ -1,34 +1,58 @@
+import EventEmitter from 'events';
+
 class AuthManager {
-    tokenKey ='CONCORD_TOKEN';
+  tokenKey = 'CONCORD_TOKEN';
 
-    subscribers = [];
+  emitter = new EventEmitter();
 
-    isLoggedIn() {
-      const token = localStorage.getItem(this.tokenKey);
-      return !!token;
-    }
+  eventTypes = {
+    LOGIN_STATUS_CHANGED: 'LOGIN_STATUS_CHANGED',
+    LOGIN: 'LOGIN',
+    LOGOUT: 'LOGOUT',
+  };
 
-    login(token) {
-      localStorage.setItem(this.tokenKey, token);
-      this.notifySubscribers(token);
-    }
+  isLoggedIn() {
+    const token = localStorage.getItem(this.tokenKey);
+    return !!token;
+  }
 
-    logout() {
-      localStorage.removeItem(this.tokenKey);
-      this.notifySubscribers(null);
-    }
+  login(token) {
+    localStorage.setItem(this.tokenKey, token);
 
-    subscribe(cb) {
-      this.subscribers.push(cb);
-    }
+    this.emitter.emit(this.eventTypes.LOGIN_STATUS_CHANGED, true);
+    this.emitter.emit(this.eventTypes.LOGIN);
+  }
 
-    unsubscribe(cb) {
-      this.subscribers = this.subscribers.filter((sub) => sub !== cb);
-    }
+  logout() {
+    localStorage.removeItem(this.tokenKey);
 
-    notifySubscribers(data) {
-      this.subscribers.forEach((cb) => cb(data));
-    }
+    this.emitter.emit(this.eventTypes.LOGIN_STATUS_CHANGED, false);
+    this.emitter.emit(this.eventTypes.LOGOUT);
+  }
+
+  onLoginStatusChange(cb) {
+    this.emitter.on(this.eventTypes.LOGIN_STATUS_CHANGED, cb);
+
+    return () => {
+      this.emitter.off(this.eventTypes.LOGIN_STATUS_CHANGED, cb);
+    };
+  }
+
+  onLogin(cb) {
+    this.emitter.on(this.eventTypes.LOGIN, cb);
+
+    return () => {
+      this.emitter.off(this.eventTypes.LOGIN, cb);
+    };
+  }
+
+  onLogout(cb) {
+    this.emitter.on(this.eventTypes.LOGOUT, cb);
+
+    return () => {
+      this.emitter.off(this.eventTypes.LOGOUT, cb);
+    };
+  }
 }
 
 export default new AuthManager();

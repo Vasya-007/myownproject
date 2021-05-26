@@ -6,10 +6,11 @@ import {
 import { Link } from 'react-router-dom';
 import paths from '../../router/route-paths';
 import AuthManager from '../../services/AuthManager';
+import React from 'react';
 
 export default function AppLayout({ children }) {
   return (
-    <>
+    <div>
       <Navbar bg="light" expand="lg">
         <Navbar.Brand as={Link} to={paths.home}>
           Concord (app)
@@ -24,6 +25,6 @@ export default function AppLayout({ children }) {
         </Navbar.Collapse>
       </Navbar>
       <Container>{children}</Container>
-    </>
+    </div>
   );
 }
