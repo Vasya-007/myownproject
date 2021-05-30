@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {
   Route, BrowserRouter as Router, Switch, Redirect,
 } from 'react-router-dom';
@@ -10,7 +11,6 @@ import Signup from '../pages/Signup';
 import paths from './route-paths';
 import AppLayout from '../components/layouts/AppLayout';
 import AuthManager from '../services/AuthManager';
-
 
 const authRoutes = [
   {
@@ -41,11 +41,11 @@ export default class Rootrouter extends Component {
     };
   }
 
- componentDidMount() {
+  componentDidMount() {
     this.unsubscribeFromLoginStatusChange = AuthManager.onLoginStatusChange(
       (token) => {
         this.setState({ loggedIn: !!token });
-      }
+      },
     );
     this.unsubscribeFromOnLogin = AuthManager.onLogin(() => {
       console.log('User was logged in!');
@@ -56,6 +56,7 @@ export default class Rootrouter extends Component {
     this.unsubscribeFromLoginStatusChange();
     this.unsubscribeFromOnLogin();
   }
+
   render() {
     const { loggedIn } = this.state;
 
