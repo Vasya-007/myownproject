@@ -3,6 +3,7 @@ const paths = {
   login: '/login',
   signup: '/signup',
   myCoin: '/mycoin',
+  myCoinDetails: '/mycoin/:id',
   profile: '/profile',
 
 };

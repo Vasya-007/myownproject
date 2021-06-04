@@ -18,11 +18,11 @@ import faker from 'faker';
 // eslint-disable-next-line import/prefer-default-export
 // eslint-disable-next-line arrow-body-style
 // eslint-disable-next-line import/prefer-default-export
-export function coinlist(n = 50) {
+export function coinlistFactory(n = 50) {
   return [...new Array(n)].map(coinMockfactory);
 }
 
-function foodImageFactory({ width = 320, height = 240 } = {}) {
+function coinImageFactory({ width = 320, height = 240 } = {}) {
   return `https://loremflickr.com/${width}/${height}/coins?random=${faker.datatype.number()}`;
 }
 
@@ -34,7 +34,7 @@ export function coinMockfactory() {
     exchange_list: faker.name.title(),
     authorID: faker.datatype.uuid(),
     description: faker.lorem.sentence(),
-    image: foodImageFactory(),
+    image: coinImageFactory(),
     added: faker.datatype.datetime(),
     material: faker.lorem.word(),
     state: faker.lorem.word(),

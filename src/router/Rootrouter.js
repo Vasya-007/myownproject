@@ -8,6 +8,7 @@ import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Notfound from '../pages/Notfound';
 import Signup from '../pages/Signup';
+import CoinDetails from '../pages/CoinDetails';
 import paths from './route-paths';
 import AppLayout from '../components/layouts/AppLayout';
 import AuthManager from '../services/AuthManager';
@@ -29,6 +30,11 @@ const appRoutes = [
   {
     path: paths.myCoin,
     Component: Home,
+    exact: true,
+  },
+  {
+    path: paths.myCoinDetails,
+    Component: CoinDetails,
     exact: true,
   },
 
@@ -66,7 +72,7 @@ export default class Rootrouter extends Component {
           <AppLayout>
             <Switch>
               {appRoutes.map(({ path, Component: C, exact }) => (
-                <Route exact={exact} path={path}>
+                <Route key={path} exact={exact} path={path}>
                   <C />
                 </Route>
               ))}
@@ -78,7 +84,7 @@ export default class Rootrouter extends Component {
           <AuthLayout login={this.login}>
             <Switch>
               {authRoutes.map(({ path, Component: C, exact }) => (
-                <Route exact={exact} path={path}>
+                <Route key={path} exact={exact} path={path}>
                   <C />
                 </Route>
               ))}
