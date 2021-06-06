@@ -1,8 +1,13 @@
-import { coinlistFactory } from '../__mocks__/coin';
+import { coinlistFactory, coinMockfactory } from '../__mocks__/coin';
 
 class MockDataservice {
   constructor() {
     this.coinList = coinlistFactory();
+    // this.coin = coinMockfactory();
+  }
+
+  generateCoin() {
+    return coinMockfactory();
   }
 
   findCoinId(_id) {
