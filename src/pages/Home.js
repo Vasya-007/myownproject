@@ -5,7 +5,7 @@ import axios from 'axios';
 import CoinListGrid from '../components/coin/CoinListGrid';
 import MockDataservice from '../services/MockDataservice';
 
-const wait = (timeout) => new Promise((resolve) => setTimeout(resolve, timeout));
+// const wait = (timeout) => new Promise((resolve) => setTimeout(resolve, timeout));
 
 export default class Home extends React.Component {
   constructor(props) {
