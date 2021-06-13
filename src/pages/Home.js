@@ -1,164 +1,160 @@
 import { toast } from 'react-toastify';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, Button, Spinner } from 'react-bootstrap';
 import axios from 'axios';
 import CoinListGrid from '../components/coin/CoinListGrid';
 import MockDataservice from '../services/MockDataservice';
 
-// const wait = (timeout) => new Promise((resolve) => setTimeout(resolve, timeout));
+const wait = (timeout) => new Promise((resolve) => setTimeout(resolve, timeout));
 
-export default class Home extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoading: false,
-      error: null,
-      coinList: [],
-      isAddingCoin: false,
-      isResetingCoin: false,
-      isshiftCoin: false,
-    };
-  }
-
-  componentDidMount() {
-    this.fetchCoin();
-  }
-
-  fetchCoin =() => {
-    this.setState({ isLoading: true });
-    return axios('/api/coin').then((response) => {
+export default function Home() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [coinList, setCoinList] = useState([]);
+  const [error, setError] = useState(null);
+  const fetchCoin = () => {
+    setIsLoading(true);
+    return axios('/api/coin')
+      .then((response) => {
       // eslint-disable-next-line no-console
-      this.setState({ coinList: response.data, isLoading: false });
-    }).catch((error) => {
-      const msg = error.message;
-      this.setState({ error: msg, isLoading: false });
-    });
-  }
+        setIsLoading(false);
+        setCoinList(response.data);
+      }).catch((e) => {
+        const msg = e.message;
+        setIsLoading(false);
+        setError(msg);
+      });
+  };
 
-  addCoin = async () => {
-    this.setState({ isAddingCoin: true });
-    // await wait(3000);
+  useEffect(() => {
+    fetchCoin();
+  }, []);
+  const [isAddingCoin, setIsAddingCoin] = useState(false);
+  const addCoin = async () => {
+    setIsAddingCoin(true);
+    await wait(1000);
     const coin = MockDataservice.generateCoin();
+    try {
+      axios(
+        {
+          url: '/api/coin/create',
+          data: coin,
+          method: 'post',
 
-    axios(
-      {
-        url: '/api/coin/create',
-        data: coin,
-        method: 'post',
-
-      },
-    ).then(() => this.fetchCoin()).catch((error) => {
-      const msg = error.message;
+        },
+      );
+      fetchCoin();
+    } catch (e) {
+      const msg = e.message;
       toast.error(msg);
-    }).finally(() => {
-      this.setState({ isAddingCoin: false });
-    });
-    // this.setState({ coinList: [coin, ...coinList] });
-  }
+    } finally {
+      setIsAddingCoin(false);
+    }
+  };
+  const [isResetingCoin, setIsResetingCoin] = useState(false);
+  const resetCoin = async () => {
+    setIsResetingCoin(true);
+    await wait(1000);
+    try {
+      axios(
+        {
+          url: '/api/coin/reset',
+          method: 'post',
 
-  resetCoin = async () => {
-    this.setState({ isResetingCoin: true });
-    // await wait(3000);
-    axios(
-      {
-        url: '/api/coin/reset',
-        method: 'post',
-
-      },
-    ).then(() => this.fetchCoin()).catch((error) => {
-      const msg = error.message;
+        },
+        fetchCoin(),
+      );
+    } catch (e) {
+      const msg = e.message;
       toast.error(msg);
-    }).finally(() => {
-      this.setState({ isResetingCoin: false });
-    });
-  }
+    } finally {
+      setIsResetingCoin(false);
+    }
+  };
+  const [isshiftCoin, setIsShiftCoin] = useState(false);
+  const shiftCoin = async () => {
+    setIsShiftCoin(true);
+    await wait(1000);
+    try {
+      axios(
+        {
+          url: '/api/coin/shift',
+          method: 'post',
 
-  shiftCoin = async () => {
-    this.setState({ isshiftCoin: true });
-    // await wait(3000);
-    axios(
-      {
-        url: '/api/coin/shift',
-        method: 'post',
-
-      },
-    ).then(() => this.fetchCoin()).catch((error) => {
-      const msg = error.message;
+        },
+        fetchCoin(),
+      );
+    } catch (e) {
+      const msg = e.message;
       toast.error(msg);
-    }).finally(() => {
-      this.setState({ isshiftCoin: false });
-    });
-  }
+    } finally {
+      setIsShiftCoin(false);
+    }
+  };
 
-  render() {
-    const {
-      coinList, isLoading, error, isAddingCoin, isResetingCoin, isshiftCoin,
-    } = this.state;
-    return (
-      <>
-        <h1>Coin List</h1>
-        { isLoading && !coinList.length ? (
-          <div>...Loading...</div>
+  return (
+    <>
+      <h1>Coin List</h1>
+      { isLoading && !coinList.length ? (
+        <div>Loading..</div>
 
-        ) : (
-          <>
-            <Button onClick={this.addCoin} disabled={isAddingCoin || isResetingCoin || isshiftCoin}>
-              { isAddingCoin ? (
-                <Spinner
-                  as="span"
-                  animation="border"
-                  size="sm"
-                  role="status"
-                  aria-hidden="true"
-                />
-              ) : null}
-              {' '}
-              Add coin
-            </Button>
-            <Button
-              onClick={this.resetCoin}
-              disabled={isResetingCoin || isAddingCoin
-              || isshiftCoin}
-            >
-              { isResetingCoin ? (
-                <Spinner
-                  as="span"
-                  animation="border"
-                  size="sm"
-                  role="status"
-                  aria-hidden="true"
-                />
-              ) : null}
-              {' '}
-              Reset coin
-            </Button>
-            <Button
-              onClick={this.shiftCoin}
-              disabled={isshiftCoin || isAddingCoin
-              || isResetingCoin}
-            >
-              { isshiftCoin ? (
-                <Spinner
-                  as="span"
-                  animation="border"
-                  size="sm"
-                  role="status"
-                  aria-hidden="true"
-                />
-              ) : null}
-              {' '}
-              Delet first coin
-            </Button>
-            {error ? <Alert variant="danger">{error}</Alert> : null}
-            {coinList.length ? (
-              <CoinListGrid coinList={coinList} />
+      ) : (
+        <>
+          <Button onClick={addCoin} disabled={isAddingCoin || isResetingCoin || isshiftCoin}>
+            { isAddingCoin ? (
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+            ) : null}
+            {' '}
+            Add coin
+          </Button>
+          <Button
+            onClick={resetCoin}
+            disabled={isResetingCoin || isAddingCoin
+            || isshiftCoin}
+          >
+            { isResetingCoin ? (
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+            ) : null}
+            {' '}
+            Reset coin
+          </Button>
+          <Button
+            onClick={shiftCoin}
+            disabled={isshiftCoin || isAddingCoin
+            || isResetingCoin}
+          >
+            { isshiftCoin ? (
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+            ) : null}
+            {' '}
+            Delet first coin
+          </Button>
+          {error ? <Alert variant="danger">{error}</Alert> : null}
+          {coinList.length ? (
+            <CoinListGrid coinList={coinList} />
 
-            ) : (
-              <div>No coins in list. Please click "Add coin"</div>
-            )}
-          </>
-        )}
-      </>
-    );
-  }
+          ) : (
+            <div>No coins in list. Please click "Add coin"</div>
+          )}
+        </>
+      )}
+    </>
+  );
 }
