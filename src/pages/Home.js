@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Alert, Button, Spinner } from 'react-bootstrap';
 import axios from 'axios';
 import CoinListGrid from '../components/coin/CoinListGrid';
@@ -7,99 +7,111 @@ import MockDataservice from '../services/MockDataservice';
 
 const wait = (timeout) => new Promise((resolve) => setTimeout(resolve, timeout));
 
-export default function Home() {
+const noop = () => {};
+
+const useAPImethod = ({ url, onCompelete = noop, debugTO }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [coinList, setCoinList] = useState([]);
-  const [error, setError] = useState(null);
-  const fetchCoin = () => {
+  const method = async (data) => {
     setIsLoading(true);
-    return axios('/api/coin')
-      .then((response) => {
-      // eslint-disable-next-line no-console
-        setIsLoading(false);
-        setCoinList(response.data);
-      }).catch((e) => {
-        const msg = e.message;
-        setIsLoading(false);
-        setError(msg);
-      });
-  };
+    if (debugTO) await wait(1000);
+    try {
+      const result = await axios(
+        {
+          url,
+          data,
+          method: 'post',
 
+        },
+      );
+      await onCompelete(result);
+      //  fetchCoin();
+    } catch (e) {
+      const msg = e.message;
+      toast.error(msg);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  return [method, isLoading];
+};
+const useAPIQuery = ({ url, onCompelete = noop, debugTO }) => {
+  const [data, setData] = useState();
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const method = useCallback(async () => {
+    setIsLoading(true);
+    if (debugTO) await wait(debugTO);
+    try {
+      const result = await axios(
+        {
+          url,
+          method: 'get',
+
+        },
+      );
+      setData(result.data);
+      await onCompelete(result);
+    } catch (e) {
+      const msg = e.message;
+      setError(msg);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [debugTO, onCompelete, url]);
   useEffect(() => {
-    fetchCoin();
-  }, []);
-  const [isAddingCoin, setIsAddingCoin] = useState(false);
-  const addCoin = async () => {
-    setIsAddingCoin(true);
-    await wait(1000);
-    const coin = MockDataservice.generateCoin();
-    try {
-      axios(
-        {
-          url: '/api/coin/create',
-          data: coin,
-          method: 'post',
+    method();
+  }, [method]);
 
-        },
-      );
-      fetchCoin();
-    } catch (e) {
-      const msg = e.message;
-      toast.error(msg);
-    } finally {
-      setIsAddingCoin(false);
-    }
+  return {
+    data, isLoading, refetch: method, error,
   };
-  const [isResetingCoin, setIsResetingCoin] = useState(false);
-  const resetCoin = async () => {
-    setIsResetingCoin(true);
-    await wait(1000);
-    try {
-      axios(
-        {
-          url: '/api/coin/reset',
-          method: 'post',
+};
 
-        },
-        fetchCoin(),
-      );
-    } catch (e) {
-      const msg = e.message;
-      toast.error(msg);
-    } finally {
-      setIsResetingCoin(false);
-    }
-  };
-  const [isshiftCoin, setIsShiftCoin] = useState(false);
-  const shiftCoin = async () => {
-    setIsShiftCoin(true);
-    await wait(1000);
-    try {
-      axios(
-        {
-          url: '/api/coin/shift',
-          method: 'post',
+export default function Home() {
+  const {
+    data: coinList,
+    isLoading,
+    error,
+    refetch: refetchCoin,
+  } = useAPIQuery({ url: '/api/coin' });
 
-        },
-        fetchCoin(),
-      );
-    } catch (e) {
-      const msg = e.message;
-      toast.error(msg);
-    } finally {
-      setIsShiftCoin(false);
-    }
-  };
+  const [addCoin, isAddingCoin] = useAPImethod({ url: '/api/coin/create', onCompelete: refetchCoin, debugTO: 1000 });
+  const [resetCoin, isResetingCoin] = useAPImethod({ url: '/api/coin/reset', onCompelete: refetchCoin, debugTO: 1000 });
+
+  // const [isshiftCoin, setIsShiftCoin] = useState(false);
+  // const shiftCoin = async () => {
+  //   setIsShiftCoin(true);
+  //   await wait(1000);
+  //   try {
+  //     axios(
+  //       {
+  //         url: '/api/coin/shift',
+  //         method: 'post',
+
+  //       },
+  //       fetchCoin(),
+  //     );
+  //   } catch (e) {
+  //     const msg = e.message;
+  //     toast.error(msg);
+  //   } finally {
+  //     setIsShiftCoin(false);
+  //   }
+  // };
 
   return (
     <>
       <h1>Coin List</h1>
-      { isLoading && !coinList.length ? (
+      { isLoading && !coinList?.length ? (
         <div>Loading..</div>
 
       ) : (
         <>
-          <Button onClick={addCoin} disabled={isAddingCoin || isResetingCoin || isshiftCoin}>
+          <Button
+            onClick={() => addCoin(MockDataservice.generateCoin())}
+            disabled={isAddingCoin || isResetingCoin}
+          >
             { isAddingCoin ? (
               <Spinner
                 as="span"
@@ -113,9 +125,8 @@ export default function Home() {
             Add coin
           </Button>
           <Button
-            onClick={resetCoin}
-            disabled={isResetingCoin || isAddingCoin
-            || isshiftCoin}
+            onClick={() => resetCoin()}
+            disabled={isResetingCoin || isAddingCoin}
           >
             { isResetingCoin ? (
               <Spinner
@@ -129,7 +140,7 @@ export default function Home() {
             {' '}
             Reset coin
           </Button>
-          <Button
+          {/* <Button
             onClick={shiftCoin}
             disabled={isshiftCoin || isAddingCoin
             || isResetingCoin}
@@ -145,14 +156,20 @@ export default function Home() {
             ) : null}
             {' '}
             Delet first coin
-          </Button>
+          </Button> */}
           {error ? <Alert variant="danger">{error}</Alert> : null}
-          {coinList.length ? (
-            <CoinListGrid coinList={coinList} />
+          {Array.isArray(coinList) ? (
 
-          ) : (
-            <div>No coins in list. Please click "Add coin"</div>
-          )}
+            <>
+              {coinList.length ? (
+                <CoinListGrid coinList={coinList} />
+
+              ) : (
+                <div>No coins in list. Please click "Add coin"</div>
+              )}
+
+            </>
+          ) : null}
         </>
       )}
     </>
