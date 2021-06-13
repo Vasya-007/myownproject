@@ -9,62 +9,55 @@ const wait = (timeout) => new Promise((resolve) => setTimeout(resolve, timeout))
 
 const noop = () => {};
 
-const useAPImethod = ({ url, onCompelete = noop, debugTO }) => {
+const useAPImethod = ({
+  url, onCompelete = noop, debugTO, method = 'post', onError = noop,
+}) => {
   const [isLoading, setIsLoading] = useState(false);
-  const method = async (data) => {
-    setIsLoading(true);
-    if (debugTO) await wait(1000);
-    try {
-      const result = await axios(
-        {
-          url,
-          data,
-          method: 'post',
-
-        },
-      );
-      await onCompelete(result);
-      //  fetchCoin();
-    } catch (e) {
-      const msg = e.message;
-      toast.error(msg);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  return [method, isLoading];
-};
-const useAPIQuery = ({ url, onCompelete = noop, debugTO }) => {
-  const [data, setData] = useState();
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const method = useCallback(async () => {
+  const call = useCallback(async (data) => {
     setIsLoading(true);
     if (debugTO) await wait(debugTO);
     try {
       const result = await axios(
         {
           url,
-          method: 'get',
+          data,
+          method,
 
         },
       );
-      setData(result.data);
-      await onCompelete(result);
+      await onCompelete(result.data);
+      //  fetchCoin();
     } catch (e) {
       const msg = e.message;
-      setError(msg);
+      onError(msg, e);
     } finally {
       setIsLoading(false);
     }
-  }, [debugTO, onCompelete, url]);
+  },
+  [debugTO, method, onCompelete, onError, url]);
+  return [call, isLoading];
+};
+const useAPIQuery = ({ url, debugTO }) => {
+  const [data, setData] = useState();
+  const [error, setError] = useState(null);
+  // const onCompelete = useCallback((d) => {
+  //   setData(d);
+  // }, []);
+  // const onError = useCallback((msg) => {
+  //   setError(msg);
+  // }, []);
+  const [fetch, isLoading] = useAPImethod({
+    method: 'get',
+    url,
+    onCompelete: setData,
+    onError: setError,
+    debugTO,
+  });
   useEffect(() => {
-    method();
-  }, [method]);
-
+    fetch();
+  }, [fetch]);
   return {
-    data, isLoading, refetch: method, error,
+    data, isLoading, refetch: fetch, error,
   };
 };
 
@@ -76,8 +69,26 @@ export default function Home() {
     refetch: refetchCoin,
   } = useAPIQuery({ url: '/api/coin' });
 
-  const [addCoin, isAddingCoin] = useAPImethod({ url: '/api/coin/create', onCompelete: refetchCoin, debugTO: 1000 });
-  const [resetCoin, isResetingCoin] = useAPImethod({ url: '/api/coin/reset', onCompelete: refetchCoin, debugTO: 1000 });
+  const [addCoin, isAddingCoin] = useAPImethod(
+    {
+      url: '/api/coin/create',
+      onCompelete: refetchCoin,
+      debugTO: 1000,
+      onError: (msg) => {
+        toast.error(msg);
+      },
+    },
+  );
+  const [resetCoin, isResetingCoin] = useAPImethod(
+    {
+      url: '/api/coin/reset',
+      onCompelete: refetchCoin,
+      debugTO: 1000,
+      onError: (msg) => {
+        toast.error(msg);
+      },
+    },
+  );
 
   // const [isshiftCoin, setIsShiftCoin] = useState(false);
   // const shiftCoin = async () => {
