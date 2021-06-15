@@ -2,7 +2,7 @@
 import {
   Route, BrowserRouter as Router, Switch, Redirect,
 } from 'react-router-dom';
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import AuthLayout from '../components/layouts/AuthLayout';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
@@ -39,63 +39,55 @@ const appRoutes = [
   },
 
 ];
-export default class Rootrouter extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loggedIn: AuthManager.isLoggedIn(),
-    };
-  }
-
-  componentDidMount() {
-    this.unsubscribeFromLoginStatusChange = AuthManager.onLoginStatusChange(
+const useIsLoggedIn = () => {
+  const [loggedIn, setLoggedIn] = useState(AuthManager.isLoggedIn());
+  useEffect(() => {
+    const unsubscribeFromLoginStatusChange = AuthManager.onLoginStatusChange(
       (token) => {
-        this.setState({ loggedIn: !!token });
+        setLoggedIn(!!token);
       },
     );
-    this.unsubscribeFromOnLogin = AuthManager.onLogin(() => {
+    const unsubscribeFromOnLogin = AuthManager.onLogin(() => {
       console.log('User was logged in!');
     });
-  }
-
-  componentWillUnmount() {
-    this.unsubscribeFromLoginStatusChange();
-    this.unsubscribeFromOnLogin();
-  }
-
-  render() {
-    const { loggedIn } = this.state;
-
-    return (
-      <Router>
-        { loggedIn ? (
-          <AppLayout>
-            <Switch>
-              {appRoutes.map(({ path, Component: C, exact }) => (
-                <Route key={path} exact={exact} path={path}>
-                  <C />
-                </Route>
-              ))}
-              <Redirect to={paths.myCoin} />
-            </Switch>
-          </AppLayout>
-        ) : (
-
-          <AuthLayout login={this.login}>
-            <Switch>
-              {authRoutes.map(({ path, Component: C, exact }) => (
-                <Route key={path} exact={exact} path={path}>
-                  <C />
-                </Route>
-              ))}
-              <Redirect to={paths.login} />
-              <Route>
-                <Notfound />
+    return () => {
+      unsubscribeFromLoginStatusChange();
+      unsubscribeFromOnLogin();
+    };
+  }, []);
+  return loggedIn;
+};
+export default function Rootrouter() {
+  const loggedIn = useIsLoggedIn();
+  return (
+    <Router>
+      { loggedIn ? (
+        <AppLayout>
+          <Switch>
+            {appRoutes.map(({ path, Component: C, exact }) => (
+              <Route key={path} exact={exact} path={path}>
+                <C />
               </Route>
-            </Switch>
-          </AuthLayout>
-        )}
-      </Router>
-    );
-  }
+            ))}
+            <Redirect to={paths.myCoin} />
+          </Switch>
+        </AppLayout>
+      ) : (
+
+        <AuthLayout>
+          <Switch>
+            {authRoutes.map(({ path, Component: C, exact }) => (
+              <Route key={path} exact={exact} path={path}>
+                <C />
+              </Route>
+            ))}
+            <Redirect to={paths.login} />
+            <Route>
+              <Notfound />
+            </Route>
+          </Switch>
+        </AuthLayout>
+      )}
+    </Router>
+  );
 }
