@@ -1,65 +1,10 @@
 import { toast } from 'react-toastify';
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 import { Alert, Button, Spinner } from 'react-bootstrap';
-import axios from 'axios';
 import CoinListGrid from '../components/coin/CoinListGrid';
 import MockDataservice from '../services/MockDataservice';
-
-const wait = (timeout) => new Promise((resolve) => setTimeout(resolve, timeout));
-
-const noop = () => {};
-
-const useAPImethod = ({
-  url, onCompelete = noop, debugTO, method = 'post', onError = noop,
-}) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const call = useCallback(async (data) => {
-    setIsLoading(true);
-    if (debugTO) await wait(debugTO);
-    try {
-      const result = await axios(
-        {
-          url,
-          data,
-          method,
-
-        },
-      );
-      await onCompelete(result.data);
-      //  fetchCoin();
-    } catch (e) {
-      const msg = e.message;
-      onError(msg, e);
-    } finally {
-      setIsLoading(false);
-    }
-  },
-  [debugTO, method, onCompelete, onError, url]);
-  return [call, isLoading];
-};
-const useAPIQuery = ({ url, debugTO }) => {
-  const [data, setData] = useState();
-  const [error, setError] = useState(null);
-  // const onCompelete = useCallback((d) => {
-  //   setData(d);
-  // }, []);
-  // const onError = useCallback((msg) => {
-  //   setError(msg);
-  // }, []);
-  const [fetch, isLoading] = useAPImethod({
-    method: 'get',
-    url,
-    onCompelete: setData,
-    onError: setError,
-    debugTO,
-  });
-  useEffect(() => {
-    fetch();
-  }, [fetch]);
-  return {
-    data, isLoading, refetch: fetch, error,
-  };
-};
+import useAPImethod from './hooks/useAPIMethod';
+import useAPIQuery from './hooks/useAPIQuery';
 
 export default function Home() {
   const {
@@ -89,27 +34,9 @@ export default function Home() {
       },
     },
   );
-
-  // const [isshiftCoin, setIsShiftCoin] = useState(false);
-  // const shiftCoin = async () => {
-  //   setIsShiftCoin(true);
-  //   await wait(1000);
-  //   try {
-  //     axios(
-  //       {
-  //         url: '/api/coin/shift',
-  //         method: 'post',
-
-  //       },
-  //       fetchCoin(),
-  //     );
-  //   } catch (e) {
-  //     const msg = e.message;
-  //     toast.error(msg);
-  //   } finally {
-  //     setIsShiftCoin(false);
-  //   }
-  // };
+  // useEffect(() => {
+  //   resetCoin();
+  // }, [resetCoin]);
 
   return (
     <>
@@ -151,23 +78,6 @@ export default function Home() {
             {' '}
             Reset coin
           </Button>
-          {/* <Button
-            onClick={shiftCoin}
-            disabled={isshiftCoin || isAddingCoin
-            || isResetingCoin}
-          >
-            { isshiftCoin ? (
-              <Spinner
-                as="span"
-                animation="border"
-                size="sm"
-                role="status"
-                aria-hidden="true"
-              />
-            ) : null}
-            {' '}
-            Delet first coin
-          </Button> */}
           {error ? <Alert variant="danger">{error}</Alert> : null}
           {Array.isArray(coinList) ? (
 
