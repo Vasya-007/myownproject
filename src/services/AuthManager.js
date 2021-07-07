@@ -1,7 +1,10 @@
 import EventEmitter from 'events';
+import jwtDecode from 'jwt-decode';
 
 class AuthManager {
-  tokenKey = 'CONCORD_TOKEN';
+  accessTokenKey = 'CONCORD_ACCESS_TOKEN';
+
+  refreshTokenKey = 'CONCORD_REFRESH_TOKEN'
 
   emitter = new EventEmitter();
 
@@ -12,19 +15,46 @@ class AuthManager {
   };
 
   isLoggedIn() {
-    const token = localStorage.getItem(this.tokenKey);
+    const token = this.getAccessToken();
     return !!token;
   }
 
-  login(token) {
-    localStorage.setItem(this.tokenKey, token);
+  isAccessTokenExpired = () => {
+    const token = this.getAccessToken();
+    if (!token) return null;
+
+    const decoded = jwtDecode(token);
+    const expirationDate = decoded.exp;
+    return new Date().getTime() >= expirationDate * 1000;
+  };
+
+  getAccessToken() {
+    return localStorage.getItem(this.accessTokenKey);
+  }
+
+  setAccessToken(accessToken) {
+    localStorage.setItem(this.accessTokenKey, accessToken);
+  }
+
+  getRefreshToken() {
+    return localStorage.getItem(this.refreshTokenKey);
+  }
+
+  setRefreshToken(refreshToken) {
+    localStorage.setItem(this.refreshTokenKey, refreshToken);
+  }
+
+  login({ accessToken, refreshToken }) {
+    this.setAccessToken(accessToken);
+    this.setRefreshToken(refreshToken);
 
     this.emitter.emit(this.eventTypes.LOGIN_STATUS_CHANGED, true);
     this.emitter.emit(this.eventTypes.LOGIN);
   }
 
   logout() {
-    localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.accessTokenKey);
+    localStorage.removeItem(this.refreshTokenKey);
 
     this.emitter.emit(this.eventTypes.LOGIN_STATUS_CHANGED, false);
     this.emitter.emit(this.eventTypes.LOGOUT);
@@ -32,7 +62,6 @@ class AuthManager {
 
   onLoginStatusChange(cb) {
     this.emitter.on(this.eventTypes.LOGIN_STATUS_CHANGED, cb);
-
     return () => {
       this.emitter.off(this.eventTypes.LOGIN_STATUS_CHANGED, cb);
     };
@@ -40,7 +69,6 @@ class AuthManager {
 
   onLogin(cb) {
     this.emitter.on(this.eventTypes.LOGIN, cb);
-
     return () => {
       this.emitter.off(this.eventTypes.LOGIN, cb);
     };
@@ -48,11 +76,9 @@ class AuthManager {
 
   onLogout(cb) {
     this.emitter.on(this.eventTypes.LOGOUT, cb);
-
     return () => {
       this.emitter.off(this.eventTypes.LOGOUT, cb);
     };
   }
 }
-
 export default new AuthManager();

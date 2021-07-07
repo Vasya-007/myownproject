@@ -1,9 +1,9 @@
 const paths = {
   home: '/',
   login: '/login',
-  signup: '/signup',
-  myCoin: '/mycoin',
-  myCoinDetails: '/mycoin/:id',
+  signup: '/sign-up',
+  myCoin: '/coin',
+  myCoinDetails: '/coin/:id',
   profile: '/profile',
 
 };

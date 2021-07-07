@@ -3,8 +3,9 @@ import React from 'react';
 import { Alert, Button, Spinner } from 'react-bootstrap';
 import CoinListGrid from '../components/coin/CoinListGrid';
 import MockDataservice from '../services/MockDataservice';
-import useAPImethod from './hooks/useAPIMethod';
-import useAPIQuery from './hooks/useAPIQuery';
+import useAPImethod from '../hooks/useAPIMethod';
+import useAPIQuery from '../hooks/useAPIQuery';
+import APIService from '../services/APIService';
 
 export default function Home() {
   const {
@@ -12,11 +13,11 @@ export default function Home() {
     isLoading,
     error,
     refetch: refetchCoin,
-  } = useAPIQuery({ url: '/api/coin' });
+  } = useAPIQuery({ call: APIService.getCoinList });
 
   const [addCoin, isAddingCoin] = useAPImethod(
     {
-      url: '/api/coin/create',
+      call: APIService.addCoin,
       onCompelete: refetchCoin,
       debugTO: 1000,
       onError: (msg) => {
@@ -26,7 +27,7 @@ export default function Home() {
   );
   const [resetCoin, isResetingCoin] = useAPImethod(
     {
-      url: '/api/coin/reset',
+      call: APIService.resetCoin,
       onCompelete: refetchCoin,
       debugTO: 1000,
       onError: (msg) => {

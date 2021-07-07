@@ -1,11 +1,15 @@
 /* eslint-disable no-unused-vars */
 import { Link } from 'react-router-dom';
 import {
-  Card, Row, Col, Button, Form,
+  Card, Row, Col, Button, Form, Spinner,
 } from 'react-bootstrap';
 import { Component, useState, useReducer } from 'react';
+import { toast } from 'react-toastify';
 import paths from '../router/route-paths';
 import AuthManager from '../services/AuthManager';
+import useAPIQuery from '../hooks/useAPIQuery';
+import APIService from '../services/APIService';
+import useAPImethod from '../hooks/useAPIMethod';
 
 const initialState = {
   emaol: '',
@@ -28,8 +32,6 @@ const reducer = (state, action) => {
 };
 export default function Login() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const onChangeEmail = (e) => {
     dispatch({ type: actionType.CHANGE_EMAIL, value: e.target.value });
   };
@@ -37,8 +39,14 @@ export default function Login() {
     dispatch({ type: actionType.CHANGE_PASSWORD, value: e.target.value });
   };
 
-  const onSubmit = () => {
-    AuthManager.login();
+  const [login, isLoggingIn] = useAPImethod({
+    call: APIService.login,
+    onError: toast.error,
+  });
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const { email, password } = state;
+    login({ email, password });
   };
   return (
     <Row>
@@ -61,7 +69,22 @@ export default function Login() {
                 <Form.Label>Password</Form.Label>
                 <Form.Control value={state.password} onChange={onChangePassword} type="password" placeholder="Password" />
               </Form.Group>
-              <Button variant="primary" type="submit" block>
+              <Button
+                variant="primary"
+                type="submit"
+                block
+                disabled={isLoggingIn}
+              >
+                {isLoggingIn ? (
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                ) : null}
+                {' '}
                 Submit
               </Button>
             </Form>
