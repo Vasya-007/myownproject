@@ -8,8 +8,3 @@ append_commit_message: false
 files:
   - source: README.md
     translation: /folder/%two_letters_code%.md
-
-files:
-  - source: test2.xml
-    translation: /folder/%two_letters_code%.xml
-
