@@ -1,5 +1,5 @@
-commit_message: "Fix: New translations %original_file_name% from Crowdin Enterprise"
+commit_message: 'Fix: New translations %original_file_name% from Crowdin Enterprise'
 append_commit_message: false
 files:
   - source: README.md
-    translation: '%original_path%/%original_file_name%'
+    translation: '%original_file_name%'
