@@ -1,5 +1,4 @@
-commit_message: 'Fix: New translations %original_file_name% from Crowdin Enterprise'
-append_commit_message: false
+commit_message: "WTF"
 files:
   - source: README.md
     translation: /folder/%two_letters_code%.md
