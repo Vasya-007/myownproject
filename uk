@@ -1,65 +1,65 @@
-# Getting Started with Create React App
+# Початок роботи з програмою Create React
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Цей проект був завантажений за допомогою [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Доступні скрипти
 
-In the project directory, you can run:
+У каталозі проекту ви можете запустити:
 
-### `npm start`
+### `npm початок`
 
-Runs the app in the development mode.\ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Запускає додаток у режимі розробки.\ Відкрийте [http://localhost:3000](http://localhost:3000) , щоб переглянути його у браузері.
 
-The page will reload if you make edits.\ You will also see any lint errors in the console.
+Сторінка перезавантажиться, якщо ви зробите редагування.\ Ви також побачите будь-які помилки посилань в консолі.
 
-### `npm test`
+### `тест npm`
 
-Launches the test runner in the interactive watch mode.\ See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Запускає запускається тестове середовище в інтерактивному режимі спостереження.\ Дивіться розділ [запущені тести](https://facebook.github.io/create-react-app/docs/running-tests) для отримання додаткової інформації.
 
-### `npm run build`
+### `npm запуск збірки`
 
-Builds the app for production to the `build` folder.\ It correctly bundles React in production mode and optimizes the build for the best performance.
+Побудувати застосунок для виробництва до папки `побудувати` . Правильно збігається React в виробничому режимі і оптимізує збірку для кращої продуктивності.</0></0>
 
-The build is minified and the filenames include the hashes.\ Your app is ready to be deployed!
+Збірка зменшена, а імена файлів включають хеш-файли.\ Ваш додаток готовий до розгортання!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Дивіться розділ [розгортання](https://facebook.github.io/create-react-app/docs/deployment) для додаткової інформації.
 
-### `npm run eject`
+### `npm запускати eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+**Примітка: це одностороння операція. Як тільки ви `eject`, , ви не зможете повернутися назад!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Якщо ви не задоволені інструментом збірки та вибором конфігурації, ви можете `кидати` в будь-який час. Ця команда видалить залежність єдиної збірки з вашого проекту.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Натомість він скопіює всі файли конфігурації та передавальні залежності (webpack, Babel, ESLint, і т.д.) ви можете повністю керувати ними. Всі команди, за винятком `eject` все ще працюватимуть, але вони посилаються на скопійовані сценарії, щоб можна було налаштувати їх. На цьому етапі ви знаходитесь самі.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Вам не потрібно ніколи використовувати `eject`. Вибораний набір підходить для малих та середніх розгортань, а вам не варто відчувати себе зобов’язаними використовувати цю функцію. Однак ми не розуміємо, що цей інструмент не буде корисним, якщо ви не зможете його налаштувати, коли ви готові до нього.
 
-## Learn More
+## Дізнатися більше
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Ви можете дізнатись більше у розділі [Створити документацію додатків React](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Щоб дізнатися React, перегляньте [документацію для React](https://reactjs.org/).
 
-### Code Splitting
+### Розгалуження коду
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Цей розділ перемістив тут: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+### Аналіз усіх наборів
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Цей розділ переміщено тут: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
+### Створення прогресивного веб-додатку
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Цей розділ переміщено тут: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
+### Розширена конфігурація
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Цей розділ переміщено тут: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+### Розгортання
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Цей розділ переміщено тут: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
+### `npm запустити збірку` не применшити
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Цей розділ переміщено тут: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
