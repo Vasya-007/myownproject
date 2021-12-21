@@ -1,3 +1,3 @@
 files:
   - source: README.md
-    translation: 32%original_file_name%
+    translation: '%original_path%/%original_file_name%'
