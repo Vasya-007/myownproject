@@ -1,7 +1,9 @@
+project_id_env: '1'
+api_token_env: 5a82d40d38310f1cb2cc354eaeedaaf9d20b9b31f22de19244187b3d2a3e51aeac834afc349723e6
 name: learn-github-actions
-with:
-  upload_sources: true
-  upload_translations: true
+  with:
+    upload_sources: true
+    upload_translations: true
 on: [push]
 jobs:
   check-bats-version:
