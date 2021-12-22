@@ -19,6 +19,6 @@ jobs:
         upload_translations: true
         download_translations: true
       env:
-        GITHUB_TOKEN: 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
+        GITHUB_TOKEN: ${{secrets.TOKEN_TIG}}"
         CROWDIN_PROJECT_ID: 1
-        CROWDIN_PERSONAL_TOKEN: 5a82d40d38310f1cb2cc354eaeedaaf9d20b9b31f22de19244187b3d2a3e51aeac834afc349723e6
+        CROWDIN_PERSONAL_TOKEN: ${{secrets.CROWDIN_PERSONAL_TOKEN}}"
