@@ -12,7 +12,7 @@ jobs:
       - run: bats -v
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.5.0
-        with:
+#         with:
           # Set always-auth in npmrc
 #           always-auth: # optional, default is false
     # Vers  ion Spec of the version to use.  Examples: 12.x, 10.15.1, >=10.15.0
