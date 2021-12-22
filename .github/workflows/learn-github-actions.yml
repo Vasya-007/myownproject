@@ -1,7 +1,4 @@
 name: learn-github-actions
-with:
-  upload_sources: true
-  upload_translations: true
 on: [push]
 jobs:
   check-bats-version:
