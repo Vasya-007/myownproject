@@ -1,14 +1,28 @@
 project_id: '1'
-api_token: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJ3UUVxdmhVM3ZMT2EyWGljbVV5VCIsImp0aSI6ImQwZTcyZmEzYWM4MTMzNzcwMTUwZDMwOTExNDBkNGNkNzk0ZTI3NGE0NmE0NGZjN2JkYTQ4MWM1YjFlODc1NGQ2N2QxNzA5MDcxZTBlZGY4IiwiaWF0IjoxNjQwMTI1MDExLCJuYmYiOjE2NDAxMjUwMTEsImV4cCI6MTY0MjcxNzAxMSwic3ViIjoiMTEiLCJkb21haW4iOiJtb250YmxhbmMiLCJzY29wZXMiOlsicHJvamVjdCJdLCJhc3NvY2lhdGlvbnMiOlsiKiJdLCJzZXNzaW9uIjowfQ.BBpQfLUocUfo6SMVq7rc7VveWSEhOUDSE191XuDQ8rr-VfbJby1skhJ0iM1aZrR-BO3go2Atnclnk4Hxc--rN95OASjk31G2Mi4uIt5xyhbP8voN6BQUvZny4Z6UwIQRn_I0fso5OEMR2WQ7hSRcakPT620hnpZ3aoyxybzdImusDMGemcrlZC7wzOcJf3zfV-XTqWlD6YfC1FkCrA80iB552g82USkTXbixNZim8zXSkFA2Ur8RPpQih7Zb8zknmGlg3j5xKdhVNUj_02tlDGQoe4upj7nh3nYdjsyqye9En0_ygcmEOWEmR_l8mzcPYZRyIaUWUBWn-BfAu30AQ-_vHDxbqwBWme8zCVWFOwo5Qdc0vKnEM6-wg1L7wRtqz3PB8vF1Wl8r7jORWLfFQBNxR302rrVHqpm7PT5yc5Dsy7tAzqDRl_KoMy8F6MOAF-ngXXXrqKzdfhtMvArd2tYZMre9Etx0oDomXR57izocgThApBeuW036cZMvuawI3l0KDjgINsFzMsWm1wT5szIFL3Q5M4mRIa36dS1lcRymes3guQPM-deIygPUUItlVKHbvpXUmjRh1-XTKsJwRnSveVwA7xl_ZkZ4AGXJCkG1A5FMtChL_bbfG9J5uMFMTt2lSbKKeLbJ6cIU-I0XMDhKF2NWOOIC68TMoRq_CPw
-base_path: .
+# api_token: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJ3UUVxdmhVM3ZMT2EyWGljbVV5VCIsImp0aSI6ImQwZTcyZmEzYWM4MTMzNzcwMTUwZDMwOTExNDBkNGNkNzk0ZTI3NGE0NmE0NGZjN2JkYTQ4MWM1YjFlODc1NGQ2N2QxNzA5MDcxZTBlZGY4IiwiaWF0IjoxNjQwMTI1MDExLCJuYmYiOjE2NDAxMjUwMTEsImV4cCI6MTY0MjcxNzAxMSwic3ViIjoiMTEiLCJkb21haW4iOiJtb250YmxhbmMiLCJzY29wZXMiOlsicHJvamVjdCJdLCJhc3NvY2lhdGlvbnMiOlsiKiJdLCJzZXNzaW9uIjowfQ.BBpQfLUocUfo6SMVq7rc7VveWSEhOUDSE191XuDQ8rr-VfbJby1skhJ0iM1aZrR-BO3go2Atnclnk4Hxc--rN95OASjk31G2Mi4uIt5xyhbP8voN6BQUvZny4Z6UwIQRn_I0fso5OEMR2WQ7hSRcakPT620hnpZ3aoyxybzdImusDMGemcrlZC7wzOcJf3zfV-XTqWlD6YfC1FkCrA80iB552g82USkTXbixNZim8zXSkFA2Ur8RPpQih7Zb8zknmGlg3j5xKdhVNUj_02tlDGQoe4upj7nh3nYdjsyqye9En0_ygcmEOWEmR_l8mzcPYZRyIaUWUBWn-BfAu30AQ-_vHDxbqwBWme8zCVWFOwo5Qdc0vKnEM6-wg1L7wRtqz3PB8vF1Wl8r7jORWLfFQBNxR302rrVHqpm7PT5yc5Dsy7tAzqDRl_KoMy8F6MOAF-ngXXXrqKzdfhtMvArd2tYZMre9Etx0oDomXR57izocgThApBeuW036cZMvuawI3l0KDjgINsFzMsWm1wT5szIFL3Q5M4mRIa36dS1lcRymes3guQPM-deIygPUUItlVKHbvpXUmjRh1-XTKsJwRnSveVwA7xl_ZkZ4AGXJCkG1A5FMtChL_bbfG9J5uMFMTt2lSbKKeLbJ6cIU-I0XMDhKF2NWOOIC68TMoRq_CPw
+api_token: 5a82d40d38310f1cb2cc354eaeedaaf9d20b9b31f22de19244187b3d2a3e51aeac834afc349723e6
+base_path: '.'
 base_url: 'https://montblanc.crowdin.com'
 preserve_hierarchy: true
 commit_message: 'Fix: New translations %original_file_name% from Crowdin Enterprise'
 append_commit_message: false
 files:
   - source: '*.md'
-    translation: /folder/%two_letters_code%.md
+    translation: /folder/123%two_letters_code%.md
   - source: /*.xml
-    translation: /%language%/%original_file_name%
+    translation: /%language%/123%original_file_name%
     translate_attributes: 0
     content_segmentation: 0
+targets: [
+  {
+    name: "android",
+    files: [
+      {
+        file: "targets/%two_letters_code%/android.xml",
+        sources: [
+            "/main/test2.xml"
+        ]
+      }
+    ]
+  }
+]

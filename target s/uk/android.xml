@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="email">Введіть адресу електронної пошти</string>
+  <string name="password">Введіть пароль</string>
+  <string name="name">Введіть тут ваше ім\'я</string>
+  <string name="confirmpass">Введіть пароль ще раз</string>
+</resources>
