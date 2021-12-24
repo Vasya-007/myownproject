@@ -1,4 +1,4 @@
-name: Crowdin Action
+name: Crowdin Acti
 
 env:
   GITHUB_TOKEN: ${{secrets.TOKEN_TIG}}"
