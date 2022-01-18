@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="email">Type your email</string>
-  <string name="password">Type password</string>
-  <string name="name">Type your name here</string>
-  <string name="confirmpass">Type password again</string>
+  <string name="email">E-Mail eingeben</string>
+  <string name="password">Passwort eingeben</string>
+  <string name="name">Gib deinen Namen hier ein</string>
+  <string name="confirmpass">Passwort erneut eingeben</string>
 </resources>
