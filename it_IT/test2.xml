@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="email">Digita la tua email</string>
+  <string name="password">Digita la password</string>
+  <string name="name">Digita qui il tuo nome</string>
+  <string name="confirmpass">Digita di nuovo la password</string>
+</resources>
