@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="email">Type your email</string>
-  <string name="password">Type password</string>
-  <string name="name">Type your name here</string>
-  <string name="confirmpass">Type password again</string>
+  <string name="email">Введіть адресу електронної пошти</string>
+  <string name="password">Введіть пароль</string>
+  <string name="name">Введіть тут ваше ім\'я</string>
+  <string name="confirmpass">Введіть пароль ще раз</string>
 </resources>
